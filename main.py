@@ -7,7 +7,7 @@ app = FastAPI()
 #Подключение к бд
 conn = sqlite3.connect('InformationAboutLessons.db')
 
-#Через объект cur выполняются запросы к бд в формате cur.execute("ВАШ-SQL-ЗАПРОС-ЗДЕСЬ;")
+#Через объект cur выполняются запросы к бд в формате cur.execute("SQL-ЗАПРОС-ЗДЕСЬ;")
 cur = conn.cursor()
 
 cur.execute("""CREATE TABLE IF NOT EXISTS technologies(
