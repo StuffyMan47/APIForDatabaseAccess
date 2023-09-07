@@ -10,9 +10,9 @@ conn = sqlite3.connect('InformationAboutLessons.db')
 #Через объект cur выполняются запросы к бд в формате cur.execute("ВАШ-SQL-ЗАПРОС-ЗДЕСЬ;")
 cur = conn.cursor()
 
-cur.execute("""CREATE TABLE IF NOT EXISTS languages(
-    language id INT PRIMARY KEY,
-    languageName TEXT);
+cur.execute("""CREATE TABLE IF NOT EXISTS technologies(
+    technologies id INT PRIMARY KEY,
+    technologiesName TEXT);
 """)
 #Сохранение изменений
 conn.commit()
@@ -20,8 +20,8 @@ conn.commit()
 cur.execute("""
 PRAGMA foreign_keys=on;
 CREATE TABLE IF NOT EXISTS theme(
-    language id INT,
-    FOREIGN KEY (language id) REFERENCES languages (language id) ON DELETE CASCADE,
+    technologies id INT,
+    FOREIGN KEY (technologies id) REFERENCES technologies (technologies id) ON DELETE CASCADE,
     theme id INT PRIMARY KEY AUTOINCREMENT,
     theme name TEXT,
     file path TEXT);
