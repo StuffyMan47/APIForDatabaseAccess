@@ -11,8 +11,8 @@ conn = sqlite3.connect('InformationAboutLessons.db')
 cur = conn.cursor()
 
 cur.execute("""CREATE TABLE IF NOT EXISTS technologies(
-    technologies id INT PRIMARY KEY,
-    technologiesName TEXT);
+    technologies_id INT PRIMARY KEY,
+    technologies_name TEXT);
 """)
 #Сохранение изменений
 conn.commit()
@@ -20,16 +20,20 @@ conn.commit()
 cur.execute("""
 PRAGMA foreign_keys=on;
 CREATE TABLE IF NOT EXISTS theme(
-    technologies id INT,
-    FOREIGN KEY (technologies id) REFERENCES technologies (technologies id) ON DELETE CASCADE,
-    theme id INT PRIMARY KEY AUTOINCREMENT,
-    theme name TEXT,
-    file path TEXT);
+    technologies_id INT,
+    FOREIGN KEY (technologies_id) REFERENCES technologies (technologies_id) ON DELETE CASCADE,
+    theme_id INT PRIMARY KEY AUTOINCREMENT,
+    theme_name TEXT,
+    file_path TEXT);
 """)
 conn.commit()
 
-
 @app.get("/")
-def read_root():
-    html_content = "<h2>Hello METANIT.COM!</h2>"
-    return HTMLResponse(content=html_content)
+def default_root():
+    htmlContent = cur.execute("SELECT technologies_name FROM technologies")
+    return HTMLResponse(content=htmlContent)
+
+@app.get("/C#")
+def root():
+    htmlContent = cur.execute("SELECT theme_name FROM theme WHERE technologies_id='1'")
+    return HTMLResponse(content=htmlContent)
