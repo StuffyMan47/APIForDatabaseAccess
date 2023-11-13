@@ -14,21 +14,22 @@ cur.execute("""CREATE TABLE IF NOT EXISTS technologies(
     technologies_id INT PRIMARY KEY,
     technologies_name TEXT);
 """)
-#Сохранение изменений
+# Сохранение изменений
 conn.commit()
 
-cur.execute("""
+cur.executescript("""
 PRAGMA foreign_keys=on;
 CREATE TABLE IF NOT EXISTS theme(
     technologies_id INT,
-    FOREIGN KEY (technologies_id) REFERENCES technologies (technologies_id) ON DELETE CASCADE,
-    theme_id INT PRIMARY KEY AUTOINCREMENT,
+    theme_id INTEGER PRIMARY KEY AUTOINCREMENT,
     theme_name TEXT,
-    file_path TEXT);
+    file_path TEXT,
+    FOREIGN KEY(technologies_id) REFERENCES technologies (technologies_id) ON DELETE CASCADE);
 """)
 conn.commit()
+conn.close()
 
-@app.get("/")
+@app.get("/data")
 def default_root():
     htmlContent = cur.execute("SELECT technologies_name FROM technologies")
     return HTMLResponse(content=htmlContent)
